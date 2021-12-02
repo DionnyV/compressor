@@ -155,7 +155,7 @@ struct compressor_maps *load_xdp_prog(struct forwarding_rule **forwarding, struc
             rule->steam_port,
             rule->a2s_info_cache ? "on" : "off"
         );
-        err = bpf_map_update_elem(forwarding_rules_fd, &rule->bind_addr, rule, BPF_NOEXIST);
+        err = bpf_map_update_elem(forwarding_rules_fd, &rule->bind_addr, rule, BPF_ANY/*BPF_NOEXIST*/);
         if (err) {
             fprintf(stderr, "Store forwarding IP map failed: (err:%d)\n", err);
             perror("bpf_map_update_elem");
@@ -163,7 +163,7 @@ struct compressor_maps *load_xdp_prog(struct forwarding_rule **forwarding, struc
         }
 
         uint64_t key = ((uint64_t)rule->to_addr << 32) | rule->inner_addr;
-        err = bpf_map_update_elem(tunnel_map_fd, &key, rule, BPF_NOEXIST);
+        err = bpf_map_update_elem(tunnel_map_fd, &key, rule, BPF_ANY/*BPF_NOEXIST*/);
         if (err) {
             fprintf(stderr, "Store tunnel IP map failed: (err:%d)\n", err);
             perror("bpf_map_update_elem");
