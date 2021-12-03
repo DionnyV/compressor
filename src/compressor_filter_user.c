@@ -179,7 +179,7 @@ struct compressor_maps *load_xdp_prog(struct forwarding_rule **forwarding, struc
             };
 
             // A2S_INFO caching operates on the bind address
-            err = bpf_map_update_elem(a2s_cache_map_fd, &rule->bind_addr, &cache_entry, BPF_NOEXIST);
+            err = bpf_map_update_elem(a2s_cache_map_fd, &rule->bind_addr, &cache_entry, BPF_ANY/*BPF_NOEXIST*/);
             if (err) {
                 fprintf(stderr, "Error prepopulating A2S_INFO cache: (err:%d)\n", err);
                 perror("bpf_map_update_elem");
